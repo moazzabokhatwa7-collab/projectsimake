@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lumina Dental — Modern Family Dentistry</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6fbfb;--ink:#0d2b33;--muted:#5b7479;--brand:#0e9f9a;--brand2:#0b7c78;--soft:#e2f4f3;--white:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:"Plus Jakarta Sans",sans-serif;line-height:1.6}
+a{color:inherit;text-decoration:none}.wrap{max-width:1160px;margin:auto;padding:0 20px}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.25rem}
+.logo i{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--brand),#5fd3c9);display:block}
+.links{display:flex;gap:30px;font-weight:500;color:var(--muted)}.links a:hover{color:var(--brand)}
+.btn{display:inline-block;background:var(--brand);color:#fff;padding:13px 26px;border-radius:12px;font-weight:600;transition:.2s;border:0;cursor:pointer;font:inherit;font-weight:600}
+.btn:hover{background:var(--brand2);transform:translateY(-2px)}.btn.light{background:var(--white);color:var(--ink);box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.hero{padding:60px 0 90px}.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:center}
+.pill{display:inline-flex;gap:8px;align-items:center;background:var(--soft);color:var(--brand2);padding:7px 14px;border-radius:30px;font-size:.82rem;font-weight:600}
+h1{font-size:clamp(2.5rem,5.5vw,4rem);line-height:1.08;letter-spacing:-.02em;margin:20px 0}h1 em{font-style:normal;color:var(--brand)}
+.hero p{color:var(--muted);font-size:1.08rem;max-width:500px}.cta{display:flex;gap:12px;margin:30px 0;flex-wrap:wrap}
+.trust{display:flex;gap:30px;color:var(--muted);font-size:.88rem}.trust b{display:block;color:var(--ink);font-size:1.5rem}
+.visual{position:relative;aspect-ratio:1;border-radius:32px;background:linear-gradient(160deg,#bfeae6,#0e9f9a)}
+.visual svg{position:absolute;inset:18%;width:64%;height:64%}
+.float{position:absolute;background:#fff;border-radius:16px;padding:14px 18px;box-shadow:0 20px 40px rgba(13,43,51,.15);font-size:.85rem;font-weight:600}
+.f1{bottom:24px;left:-10px}.f2{top:30px;right:-10px}.float small{display:block;color:var(--muted);font-weight:400}
+section{padding:90px 0}h2{font-size:clamp(2rem,4vw,2.8rem);letter-spacing:-.02em;line-height:1.15}
+.head{text-align:center;max-width:620px;margin:0 auto 50px}.head p{color:var(--muted);margin-top:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.svc{background:#fff;border-radius:20px;padding:30px;border:1px solid #e3eeee;transition:.25s}
+.svc:hover{transform:translateY(-6px);box-shadow:0 24px 40px rgba(13,43,51,.08);border-color:transparent}
+.ic{width:48px;height:48px;border-radius:14px;background:var(--soft);display:grid;place-items:center;margin-bottom:18px;color:var(--brand);font-weight:800}
+.svc h3{font-size:1.15rem;margin-bottom:6px}.svc p{color:var(--muted);font-size:.92rem}
+.band{background:var(--ink);color:#fff;border-radius:28px;padding:60px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center}
+.band b{font-size:2.6rem;color:#5fd3c9;display:block}.band span{opacity:.75;font-size:.9rem}
+.team{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.doc{background:#fff;border-radius:20px;overflow:hidden;border:1px solid #e3eeee}
+.ph{aspect-ratio:1/1;display:grid;place-items:center;font-size:3rem;font-weight:800;color:#fff}
+.doc div:last-child{padding:18px}.doc small{color:var(--brand);font-weight:600}
+.appt{background:linear-gradient(135deg,var(--brand),#0b6f8c);border-radius:28px;padding:56px;color:#fff;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.appt p{opacity:.85;margin-top:10px}
+form{background:#fff;border-radius:20px;padding:26px;display:grid;gap:12px}
+input,select{border:1px solid #dbe7e7;padding:13px;border-radius:10px;font:inherit;color:var(--ink)}
+footer{padding:40px 0;color:var(--muted);font-size:.88rem}footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+@media(max-width:860px){.links{display:none}.hero .wrap,.appt{grid-template-columns:1fr}.band{grid-template-columns:1fr 1fr;padding:36px}.appt{padding:30px}}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><a class="logo" href="#"><i></i>Lumina Dental</a>
+<div class="links"><a href="#services">Services</a><a href="#team">Our Team</a><a href="#book">Contact</a></div>
+<a class="btn" href="#book">Book Visit</a></div></nav>
+
+<header class="hero"><div class="wrap">
+<div><span class="pill">● Accepting new patients</span>
+<h1>Gentle care for <em>brighter</em> smiles.</h1>
+<p>Modern, pain-free dentistry for the whole family. Same-week appointments, transparent pricing and a team that genuinely listens.</p>
+<div class="cta"><a class="btn" href="#book">Book an Appointment</a><a class="btn light" href="tel:5550199">Call (555) 019-9000</a></div>
+<div class="trust"><div><b>15k+</b>Happy patients</div><div><b>4.9/5</b>Google rating</div><div><b>18 yrs</b>Experience</div></div></div>
+<div class="visual">
+<svg viewBox="0 0 100 100" fill="#fff"><path d="M30 10c-12 0-20 9-20 22 0 10 4 16 7 26 3 12 4 32 12 32 7 0 7-20 21-20s14 20 21 20c8 0 9-20 12-32 3-10 7-16 7-26 0-13-8-22-20-22-8 0-12 4-20 4s-12-4-20-4z"/></svg>
+<div class="float f1">✓ Booking confirmed<small>Tomorrow, 10:30 AM</small></div>
+<div class="float f2">★ 4.9 rating<small>2,300 reviews</small></div>
+</div></div></header>
+
+<section id="services"><div class="wrap">
+<div class="head"><span class="pill">Our Services</span><h2 style="margin-top:14px">Complete care under one roof</h2><p>From routine cleanings to full smile makeovers, we use the latest technology to keep you comfortable.</p></div>
+<div class="grid">
+<div class="svc"><div class="ic">01</div><h3>General Checkups</h3><p>Cleanings, exams and digital X-rays with 90% less radiation.</p></div>
+<div class="svc"><div class="ic">02</div><h3>Teeth Whitening</h3><p>Professional whitening up to 8 shades brighter in one visit.</p></div>
+<div class="svc"><div class="ic">03</div><h3>Invisible Aligners</h3><p>Straighten your teeth discreetly with clear, custom aligners.</p></div>
+<div class="svc"><div class="ic">04</div><h3>Dental Implants</h3><p>Permanent, natural-looking replacements for missing teeth.</p></div>
+<div class="svc"><div class="ic">05</div><h3>Kids Dentistry</h3><p>A fun, fear-free environment designed for little smiles.</p></div>
+<div class="svc"><div class="ic">06</div><h3>Emergency Care</h3><p>Same-day appointments for pain, chips and urgent issues.</p></div>
+</div></div></section>
+
+<div class="wrap"><div class="band"><div><b>15k+</b><span>Patients treated</span></div><div><b>98%</b><span>Would recommend</span></div><div><b>6</b><span>Specialists</span></div><div><b>24h</b><span>Emergency line</span></div></div></div>
+
+<section id="team"><div class="wrap">
+<div class="head"><span class="pill">Meet the Team</span><h2 style="margin-top:14px">Specialists who care</h2></div>
+<div class="team">
+<div class="doc"><div class="ph" style="background:linear-gradient(135deg,#5fd3c9,#0e9f9a)">NA</div><div><h3>Dr. Nadia Amin</h3><small>Lead Dentist, DDS</small></div></div>
+<div class="doc"><div class="ph" style="background:linear-gradient(135deg,#7ab8f5,#2f6fd1)">MR</div><div><h3>Dr. Mark Rivera</h3><small>Orthodontist</small></div></div>
+<div class="doc"><div class="ph" style="background:linear-gradient(135deg,#f5b77a,#e0794a)">YS</div><div><h3>Dr. Yasmin Saleh</h3><small>Pediatric Dentist</small></div></div>
+<div class="doc"><div class="ph" style="background:linear-gradient(135deg,#b49af5,#6a4fd1)">DL</div><div><h3>Dr. David Lee</h3><small>Implant Specialist</small></div></div>
+</div></div></section>
+
+<section id="book" style="padding-top:0"><div class="wrap"><div class="appt">
+<div><h2>Ready for a healthier smile?</h2><p>Book online in under a minute. New patients get a free consultation and whitening kit.</p>
+<p style="margin-top:20px">📍 88 Wellness Ave, Suite 200<br>🕘 Mon–Sat · 8am – 7pm</p></div>
+<form onsubmit="event.preventDefault();this.innerHTML='<h3 style=color:#0d2b33>Thanks! We’ll call you within 2 hours to confirm.</h3>'">
+<input placeholder="Full name" required><input type="tel" placeholder="Phone number" required>
+<select><option>General checkup</option><option>Whitening</option><option>Aligners</option><option>Implants</option><option>Emergency</option></select>
+<input type="date" required><button class="btn">Request Appointment</button></form>
+</div></div></section>
+
+<footer><div class="wrap"><span>© 2026 Lumina Dental Clinic</span><span>Privacy · Terms · Insurance Partners</span></div></footer>
+</body></html>

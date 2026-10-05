@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ember &amp; Oak — Wood-Fired Kitchen</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#14100d;--panel:#1d1714;--ink:#f3e9dc;--muted:#b9a993;--accent:#d9893b;--line:#3a2e26}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:Inter,sans-serif;line-height:1.6}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1140px;margin:auto;padding:0 20px}
+h1,h2,h3{font-family:"Cormorant Garamond",serif;font-weight:700;line-height:1.1}
+nav{position:sticky;top:0;z-index:9;background:rgba(20,16,13,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:68px}
+.logo{font-family:"Cormorant Garamond",serif;font-size:1.6rem;font-weight:700}.logo span{color:var(--accent)}
+.links{display:flex;gap:28px;font-size:.9rem;color:var(--muted)}.links a:hover{color:var(--ink)}
+.btn{display:inline-block;background:var(--accent);color:#1a120b;padding:12px 26px;border-radius:40px;font-weight:600;font-size:.92rem;transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}.btn.ghost{background:none;border:1px solid var(--muted);color:var(--ink)}
+.hero{min-height:88vh;display:grid;place-items:center;text-align:center;background:radial-gradient(ellipse at 50% 120%,rgba(217,137,59,.45),transparent 60%),radial-gradient(circle at 20% 20%,#2a1d14,transparent 50%),var(--bg)}
+.eyebrow{letter-spacing:.3em;text-transform:uppercase;font-size:.75rem;color:var(--accent);margin-bottom:18px}
+.hero h1{font-size:clamp(3rem,9vw,6.5rem)}.hero p{max-width:520px;margin:20px auto 34px;color:var(--muted)}
+.hero .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+section{padding:100px 0}.center{text-align:center}h2{font-size:clamp(2.2rem,5vw,3.4rem);margin-bottom:14px}
+.sub{color:var(--muted);max-width:560px;margin:0 auto 54px}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px 60px}
+.item{display:flex;gap:14px;align-items:baseline;padding:16px 0;border-bottom:1px dashed var(--line)}
+.item h3{font-size:1.4rem}.item p{color:var(--muted);font-size:.88rem}.dots{flex:1}.price{color:var(--accent);font-weight:600}
+.story{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.art{aspect-ratio:4/5;border-radius:200px 200px 16px 16px;background:radial-gradient(circle at 50% 75%,#f2a24a 0 8%,#c0561f 18%,#5a2610 38%,#1d1410 70%);box-shadow:0 40px 80px rgba(0,0,0,.5)}
+.stats{display:flex;gap:40px;margin-top:30px}.stats b{font-family:"Cormorant Garamond";font-size:2.4rem;color:var(--accent);display:block}
+.reviews{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:30px}.card .stars{color:var(--accent);letter-spacing:3px}
+.card p{margin:14px 0;font-family:"Cormorant Garamond";font-size:1.3rem}.card small{color:var(--muted)}
+.book{background:var(--panel);border-radius:24px;padding:60px;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+input,select{background:var(--bg);border:1px solid var(--line);color:var(--ink);padding:14px;border-radius:10px;font:inherit}
+form .full{grid-column:1/-1}
+footer{border-top:1px solid var(--line);padding:40px 0;color:var(--muted);font-size:.85rem}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.reveal{opacity:0;transform:translateY(24px);transition:all .8s ease}.reveal.in{opacity:1;transform:none}
+@media(max-width:800px){.links{display:none}.story,.book{grid-template-columns:1fr}.book{padding:30px}form{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><a class="logo" href="#">Ember <span>&amp;</span> Oak</a>
+<div class="links"><a href="#menu">Menu</a><a href="#story">Our Story</a><a href="#reviews">Reviews</a></div>
+<a class="btn" href="#book">Reserve</a></div></nav>
+
+<header class="hero"><div class="wrap">
+<div class="eyebrow">Wood-fired · Seasonal · Since 2014</div>
+<h1>Cooked over<br>live fire.</h1>
+<p>A neighborhood kitchen where every dish meets the flame of our oak-burning hearth. Honest ingredients, unhurried evenings.</p>
+<div class="cta"><a class="btn" href="#book">Book a Table</a><a class="btn ghost" href="#menu">View Menu</a></div>
+</div></header>
+
+<section id="menu"><div class="wrap">
+<div class="center reveal"><div class="eyebrow">The Menu</div><h2>From the Hearth</h2><p class="sub">Changes with the season. Everything made in-house, every day.</p></div>
+<div class="menu reveal">
+<div class="item"><div><h3>Charred Octopus</h3><p>smoked paprika, potato, lemon oil</p></div><span class="dots"></span><span class="price">$18</span></div>
+<div class="item"><div><h3>Ember-Roasted Beets</h3><p>whipped feta, pistachio, honey</p></div><span class="dots"></span><span class="price">$14</span></div>
+<div class="item"><div><h3>Dry-Aged Ribeye</h3><p>45 days, bone marrow butter</p></div><span class="dots"></span><span class="price">$52</span></div>
+<div class="item"><div><h3>Whole Sea Bream</h3><p>salsa verde, grilled fennel</p></div><span class="dots"></span><span class="price">$36</span></div>
+<div class="item"><div><h3>Wild Mushroom Flatbread</h3><p>taleggio, thyme, truffle</p></div><span class="dots"></span><span class="price">$22</span></div>
+<div class="item"><div><h3>Smoked Chocolate Tart</h3><p>sea salt, crème fraîche</p></div><span class="dots"></span><span class="price">$12</span></div>
+</div></div></section>
+
+<section id="story" style="background:var(--panel)"><div class="wrap story">
+<div class="art reveal"></div>
+<div class="reveal"><div class="eyebrow">Our Story</div><h2>Fire is our oldest ingredient.</h2>
+<p style="color:var(--muted)">Chef Laila Haddad opened Ember &amp; Oak with a single idea: cook the way people always have, over wood and flame. We source from farms within 100 miles and let the fire do the rest.</p>
+<div class="stats"><div><b>10+</b><small>Years serving</small></div><div><b>100mi</b><small>Local sourcing</small></div><div><b>4.9★</b><small>Guest rating</small></div></div></div>
+</div></section>
+
+<section id="reviews"><div class="wrap">
+<div class="center reveal"><div class="eyebrow">Kind Words</div><h2>What Guests Say</h2><p class="sub">Over 1,200 five-star reviews and counting.</p></div>
+<div class="reviews reveal">
+<div class="card"><div class="stars">★★★★★</div><p>“The ribeye alone is worth the trip. Warm, intimate, unforgettable.”</p><small>— Sarah M.</small></div>
+<div class="card"><div class="stars">★★★★★</div><p>“Best date night spot in the city. The staff made us feel like family.”</p><small>— Omar K.</small></div>
+<div class="card"><div class="stars">★★★★★</div><p>“Every dish had that perfect smoky depth. We’re already planning our next visit.”</p><small>— James R.</small></div>
+</div></div></section>
+
+<section id="book"><div class="wrap"><div class="book reveal">
+<div><div class="eyebrow">Reservations</div><h2>Save your seat by the fire.</h2>
+<p style="color:var(--muted)">Tue–Sun · 5pm – 11pm<br>214 Harbor Street, Downtown<br>(555) 012-3456</p></div>
+<form onsubmit="event.preventDefault();this.innerHTML='<p class=full style=font-size:1.2rem>Thank you! We’ll confirm your table shortly.</p>'">
+<input placeholder="Full name" required><input type="tel" placeholder="Phone" required>
+<input type="date" required><select><option>2 guests</option><option>4 guests</option><option>6+ guests</option></select>
+<button class="btn full" style="border:0;cursor:pointer">Request Reservation</button></form>
+</div></div></section>
+
+<footer><div class="wrap"><span>© 2026 Ember &amp; Oak. All rights reserved.</span><span>Instagram · Facebook · TripAdvisor</span></div></footer>
+<script>const o=new IntersectionObserver(e=>e.forEach(x=>x.isIntersecting&&x.target.classList.add('in')),{threshold:.15});document.querySelectorAll('.reveal').forEach(el=>o.observe(el))</script>
+</body></html>
