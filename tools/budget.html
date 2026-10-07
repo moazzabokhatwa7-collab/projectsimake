@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Budget Tracker — Simple Money Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--ink:#151a2d;--muted:#6b7389;--line:#e6e9f1;--in:#16a34a;--out:#e11d48;--brand:#2563eb}
+*{box-sizing:border-box;margin:0}body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);padding:24px 16px}
+.w{max-width:1000px;margin:auto}.hd{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:20px}
+h1{font-size:1.7rem}.hd select,.hd button{width:auto;font:inherit;padding:9px 12px;border-radius:9px;border:1px solid var(--line);background:#fff;cursor:pointer}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+.k{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}.k small{color:var(--muted);font-weight:600}.k b{display:block;font-size:1.7rem;margin-top:4px}
+.grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.card h2{font-size:1rem;margin-bottom:14px}
+form{display:grid;grid-template-columns:1fr 1fr;gap:10px}form .full{grid-column:1/-1}
+input,select{font:inherit;padding:11px;border:1px solid var(--line);border-radius:9px;width:100%;background:#fff;color:inherit}
+.seg{display:flex;background:var(--bg);border-radius:10px;padding:4px}.seg button{flex:1;border:0;background:none;padding:9px;border-radius:8px;font:inherit;font-weight:600;cursor:pointer;color:var(--muted)}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.go{background:var(--brand);color:#fff;border:0;border-radius:9px;padding:12px;font:inherit;font-weight:700;cursor:pointer}
+.bar{margin:10px 0}.bar div:first-child{display:flex;justify-content:space-between;font-size:.88rem;margin-bottom:5px}
+.track{height:10px;background:var(--bg);border-radius:10px;overflow:hidden}.fill{height:100%;border-radius:10px}
+.bar.over .fill{background:var(--out)!important}.bar small{color:var(--muted)}
+ul{list-style:none;padding:0;max-height:380px;overflow:auto}li{display:flex;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px solid var(--line)}
+.dot{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:1rem;flex-shrink:0}
+li .t{flex:1;min-width:0}li .t small{color:var(--muted);display:block}li .a{font-weight:700;white-space:nowrap}li button{border:0;background:none;color:var(--muted);cursor:pointer;font-size:1rem}
+.empty{color:var(--muted);text-align:center;padding:30px}
+@media(max-width:780px){.grid{grid-template-columns:1fr}.kpis{grid-template-columns:1fr}}
+</style></head><body><div class="w">
+<div class="hd"><h1>💰 Budget Tracker</h1><div><select id="month"></select> <select id="cur"><option>USD</option><option>EUR</option><option>GBP</option><option>SAR</option><option>EGP</option><option>AED</option></select> <button id="csv">Export CSV</button></div></div>
+<div class="kpis"><div class="k"><small>Income</small><b id="ki" style="color:var(--in)"></b></div><div class="k"><small>Expenses</small><b id="ke" style="color:var(--out)"></b></div><div class="k"><small>Balance</small><b id="kb"></b></div></div>
+<div class="grid"><div>
+<div class="card"><h2>Add transaction</h2><form id="add">
+<div class="seg full" id="kind"><button type=button class=on data-v=out>Expense</button><button type=button data-v=in>Income</button></div>
+<input class="full" id="desc" placeholder="Description (e.g. Groceries)" required>
+<input id="amt" type="number" step=".01" min="0.01" placeholder="Amount" required><input id="date" type="date" required>
+<select class="full" id="cat"></select><button class="go full">Add</button></form></div>
+<div class="card" style="margin-top:16px"><h2>Monthly budgets by category</h2><div id="bars"></div></div>
+</div>
+<div class="card"><h2>Transactions</h2><ul id="list"></ul></div></div>
+</div>
+<script>
+const CATS={Food:['🍔','#f59e0b',400],Rent:['🏠','#6366f1',1200],Transport:['🚗','#06b6d4',200],Bills:['💡','#8b5cf6',250],Shopping:['🛍️','#ec4899',300],Health:['💊','#10b981',100],Fun:['🎉','#f97316',150],Other:['📦','#64748b',100]};
+const INC={Salary:['💼','#16a34a'],Freelance:['💻','#22c55e'],Other:['💵','#4ade80']};
+const $=id=>document.getElementById(id);let kind='out',tx=[];
+try{tx=JSON.parse(localStorage.getItem('budget_tx'))||[]}catch(e){}
+try{$('cur').value=localStorage.getItem('budget_cur')||'USD'}catch(e){}
+const store=()=>{try{localStorage.setItem('budget_tx',JSON.stringify(tx));localStorage.setItem('budget_cur',$('cur').value)}catch(e){}};
+const fmt=v=>new Intl.NumberFormat(undefined,{style:'currency',currency:$('cur').value}).format(v);
+const mk=d=>d.slice(0,7);
+function cats(){$('cat').innerHTML=Object.entries(kind=='out'?CATS:INC).map(([k,v])=>`<option value="${k}">${v[0]} ${k}</option>`).join('')}
+function months(){const now=new Date().toISOString().slice(0,7),set=new Set([now,...tx.map(t=>mk(t.date))]),cur=$('month').value||now;
+$('month').innerHTML=[...set].sort().reverse().map(m=>`<option value=${m}>${new Date(m+'-01T00:00').toLocaleDateString(undefined,{month:'long',year:'numeric'})}</option>`).join('');$('month').value=set.has(cur)?cur:now}
+function render(){months();const m=$('month').value,cur=tx.filter(t=>mk(t.date)==m).sort((a,b)=>b.date.localeCompare(a.date));
+const inc=cur.filter(t=>t.kind=='in').reduce((s,t)=>s+t.amt,0),exp=cur.filter(t=>t.kind=='out').reduce((s,t)=>s+t.amt,0);
+$('ki').textContent=fmt(inc);$('ke').textContent=fmt(exp);$('kb').textContent=fmt(inc-exp);$('kb').style.color=inc-exp<0?'var(--out)':'var(--ink)';
+$('list').innerHTML=cur.length?cur.map(t=>{const c=(t.kind=='out'?CATS:INC)[t.cat]||['•','#999'];return`<li><div class=dot style="background:${c[1]}22">${c[0]}</div><div class=t><b>${t.desc.replace(/</g,'&lt;')}</b><small>${t.cat} · ${t.date}</small></div><span class=a style="color:var(--${t.kind})">${t.kind=='in'?'+':'−'}${fmt(t.amt)}</span><button title=Delete data-id=${t.id}>✕</button></li>`}).join(''):'<div class=empty>No transactions this month yet.<br>Add your first one on the left.</div>';
+$('bars').innerHTML=Object.entries(CATS).map(([k,[ic,col,lim]])=>{const s=cur.filter(t=>t.kind=='out'&&t.cat==k).reduce((a,t)=>a+t.amt,0),p=Math.min(100,s/lim*100);
+return`<div class="bar ${s>lim?'over':''}"><div><span>${ic} ${k}</span><small>${fmt(s)} / ${fmt(lim)}</small></div><div class=track><div class=fill style="width:${p}%;background:${col}"></div></div></div>`}).join('');store()}
+$('kind').onclick=e=>{if(!e.target.dataset.v)return;kind=e.target.dataset.v;[...$('kind').children].forEach(b=>b.classList.toggle('on',b==e.target));cats()};
+$('add').onsubmit=e=>{e.preventDefault();tx.push({id:Date.now(),kind,desc:$('desc').value,amt:+$('amt').value,date:$('date').value,cat:$('cat').value});$('month').value=mk($('date').value);$('desc').value='';$('amt').value='';render();$('month').value=mk(tx[tx.length-1].date);render()};
+$('list').onclick=e=>{const id=e.target.dataset.id;if(id&&confirm('Delete this transaction?')){tx=tx.filter(t=>t.id!=id);render()}};
+$('month').onchange=render;$('cur').onchange=render;
+$('csv').onclick=()=>{const rows=[['Date','Type','Category','Description','Amount'],...tx.map(t=>[t.date,t.kind=='in'?'Income':'Expense',t.cat,'"'+t.desc.replace(/"/g,'""')+'"',t.amt])];
+const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([rows.map(r=>r.join(',')).join('\n')],{type:'text/csv'}));a.download='budget.csv';a.click()};
+$('date').value=new Date().toISOString().slice(0,10);cats();render();
+</script></body></html>
