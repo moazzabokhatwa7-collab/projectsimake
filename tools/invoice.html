@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Invoice Generator — Free, No Signup</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f5f9;--ink:#141a26;--muted:#69738a;--brand:#4f46e5;--line:#e2e6ef}
+*{box-sizing:border-box;margin:0}body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px}
+header{background:#fff;border-bottom:1px solid var(--line);padding:14px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+header b{font-size:1.1rem}.acts{display:flex;gap:8px;flex-wrap:wrap}
+button{font:inherit;font-weight:600;border:1px solid var(--line);background:#fff;padding:9px 14px;border-radius:8px;cursor:pointer}
+button.p{background:var(--brand);color:#fff;border-color:var(--brand)}button:hover{filter:brightness(.96)}
+.sheet{max-width:860px;margin:24px auto;background:#fff;border-radius:14px;padding:44px;box-shadow:0 10px 30px rgba(20,26,38,.06)}
+input,textarea,select{font:inherit;color:inherit;border:1px solid transparent;border-radius:6px;padding:6px 8px;width:100%;background:transparent}
+input:hover,textarea:hover,select:hover{border-color:var(--line)}input:focus,textarea:focus{outline:none;border-color:var(--brand);background:#fafbff}
+textarea{resize:vertical;min-height:60px}
+.top{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.title{font-size:2rem;font-weight:700;color:var(--brand)}.meta{display:grid;grid-template-columns:auto 160px;gap:4px 8px;align-items:center}
+.meta label{color:var(--muted);text-align:right}
+.parties{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin:30px 0}.lbl{color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;padding-left:8px}
+table{width:100%;border-collapse:collapse}th{text-align:left;font-size:.75rem;text-transform:uppercase;color:var(--muted);padding:10px 8px;border-bottom:2px solid var(--line)}
+td{border-bottom:1px solid var(--line);padding:4px 0}td.amt{text-align:right;padding-right:8px;font-weight:600;white-space:nowrap}
+.num{text-align:right}.del{border:0;color:#c33;background:none;padding:4px 8px}
+.add{margin:12px 0;border-style:dashed;color:var(--brand)}
+.totals{margin-left:auto;width:300px;margin-top:10px}.totals div{display:flex;justify-content:space-between;align-items:center;padding:6px 8px}
+.totals input{width:70px;text-align:right}.grand{border-top:2px solid var(--ink);font-size:1.25rem;font-weight:700;margin-top:6px}
+.notes{margin-top:30px}
+@media(max-width:640px){.sheet{padding:20px;margin:10px}.parties{grid-template-columns:1fr}.totals{width:100%}th:nth-child(2),td:nth-child(2){width:60px}}
+@media print{header,.del,.add,.noprint{display:none!important}body{background:#fff}.sheet{box-shadow:none;margin:0;padding:0;max-width:none}input,textarea,select{border:0!important;background:none!important;-webkit-appearance:none;appearance:none}}
+</style></head><body>
+<header><b>🧾 Invoice Generator</b><div class="acts">
+<select id="cur" style="width:auto;border:1px solid var(--line)"><option value="USD">USD $</option><option value="EUR">EUR €</option><option value="GBP">GBP £</option><option value="SAR">SAR ﷼</option><option value="EGP">EGP E£</option><option value="AED">AED</option></select>
+<button onclick="reset()">New</button><button onclick="save(1)">Save</button><button class="p" onclick="window.print()">Download PDF</button></div></header>
+<div class="sheet" id="inv">
+<div class="top"><div><div class="title">INVOICE</div><input id="from_name" placeholder="Your business name" style="font-weight:700;font-size:1.1rem"></div>
+<div class="meta"><label>Invoice #</label><input id="num"><label>Date</label><input type="date" id="date"><label>Due</label><input type="date" id="due"></div></div>
+<div class="parties"><div><div class="lbl">From</div><textarea id="from" placeholder="Address&#10;Email · Phone"></textarea></div>
+<div><div class="lbl">Bill To</div><textarea id="to" placeholder="Client name&#10;Address&#10;Email"></textarea></div></div>
+<table><thead><tr><th>Description</th><th class="num">Qty</th><th class="num">Rate</th><th class="num">Amount</th><th class="noprint"></th></tr></thead><tbody id="rows"></tbody></table>
+<button class="add" onclick="addRow()">+ Add line item</button>
+<div class="totals"><div><span>Subtotal</span><span id="sub"></span></div>
+<div><span>Tax %</span><input id="tax" type="number" value="0" min="0"></div>
+<div><span>Discount %</span><input id="disc" type="number" value="0" min="0"></div>
+<div class="grand"><span>Total</span><span id="tot"></span></div></div>
+<div class="notes"><div class="lbl">Notes / Payment details</div><textarea id="notes" placeholder="Bank account, PayPal, payment terms..."></textarea></div>
+</div>
+<script>
+const $=id=>document.getElementById(id),F=['from_name','num','date','due','from','to','tax','disc','notes','cur'];
+const fmt=v=>new Intl.NumberFormat(undefined,{style:'currency',currency:$('cur').value}).format(v||0);
+function addRow(d={desc:'',qty:1,rate:0}){const tr=document.createElement('tr');tr.innerHTML=`<td><input class=d placeholder="Service or product" value="${(d.desc||'').replace(/"/g,'&quot;')}"></td><td><input class="q num" type=number min=0 value="${d.qty}"></td><td><input class="r num" type=number min=0 step=.01 value="${d.rate}"></td><td class=amt></td><td class=noprint><button class=del title=Remove>✕</button></td>`;
+tr.querySelector('.del').onclick=()=>{tr.remove();calc()};$('rows').appendChild(tr);calc()}
+function rows(){return[...$('rows').children].map(t=>({desc:t.querySelector('.d').value,qty:+t.querySelector('.q').value,rate:+t.querySelector('.r').value}))}
+function calc(){let s=0;[...$('rows').children].forEach(t=>{const a=t.querySelector('.q').value*t.querySelector('.r').value;t.querySelector('.amt').textContent=fmt(a);s+=a});
+const tot=s*(1-$('disc').value/100)*(1+$('tax').value/100);$('sub').textContent=fmt(s);$('tot').textContent=fmt(tot);save()}
+function save(msg){const d={rows:rows()};F.forEach(k=>d[k]=$(k).value);try{localStorage.setItem('invoice',JSON.stringify(d))}catch(e){}if(msg)alert('Saved in this browser.')}
+function load(){let d;try{d=JSON.parse(localStorage.getItem('invoice'))}catch(e){}const t=new Date(),iso=x=>x.toISOString().slice(0,10);
+if(!d)d={num:'INV-0001',date:iso(t),due:iso(new Date(t.getTime()+14*864e5)),tax:0,disc:0,cur:'USD',rows:[{desc:'Website design',qty:1,rate:500}]};
+F.forEach(k=>{if(d[k]!=null)$(k).value=d[k]});$('rows').innerHTML='';(d.rows.length?d.rows:[{}]).forEach(addRow)}
+function reset(){if(!confirm('Start a new invoice? This clears the current one.'))return;try{localStorage.removeItem('invoice')}catch(e){}const n=($('num').value.match(/\d+$/)||['0'])[0];load();$('num').value='INV-'+String(+n+1).padStart(4,'0');calc()}
+document.addEventListener('input',calc);load();calc();
+</script></body></html>
